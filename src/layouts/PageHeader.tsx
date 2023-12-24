@@ -1,11 +1,17 @@
-import { Bell, Menu, Mic, Search, Upload, User } from "lucide-react";
+import { ArrowLeft, Bell, Menu, Mic, Search, Upload, User } from "lucide-react";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
+import { useState } from "react";
 
 const PageHeader = () => {
+  const [showFullWidth, setShowFullWidth] = useState(false);
   return (
     <div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4">
-      <div className="flex gap-4 items-center flex-shrink-0">
+      <div
+        className={`gap-4 items-center flex-shrink-0 ${
+          showFullWidth ? "hidden" : "flex"
+        }`}
+      >
         <Button variant="ghost" size="icon">
           <Menu></Menu>
         </Button>
@@ -13,7 +19,24 @@ const PageHeader = () => {
           <img className="h-8" src={logo} alt="logo" />
         </a>
       </div>
-      <form className="flex flex-grow gap-4 justify-center">
+
+      <form
+        className={`flex-grow gap-4 justify-center ${
+          showFullWidth ? "flex" : "hidden md:flex"
+        }`}
+      >
+        {showFullWidth && (
+          <Button
+            onClick={() => setShowFullWidth(false)}
+            type="button"
+            size="icon"
+            variant="ghost"
+            className="flex-shrink-0"
+          >
+            <ArrowLeft />
+          </Button>
+        )}
+
         <div className="flex flex-grow max-w-[600px]">
           <input
             type="search"
@@ -28,7 +51,24 @@ const PageHeader = () => {
           <Mic></Mic>
         </Button>
       </form>
-      <div className="flex flex-shrink-0 md:gap-2">
+      <div
+        className={`flex-shrink-0 md:gap-2 ${
+          showFullWidth ? "hidden" : "flex"
+        }`}
+      >
+        <Button
+          onClick={() => setShowFullWidth(true)}
+          size="icon"
+          variant="ghost"
+          className="md:hidden"
+        >
+          <Search />
+        </Button>
+
+        <Button size="icon" variant="ghost" className="md:hidden">
+          <Mic />
+        </Button>
+
         <Button size="icon" variant="ghost">
           <Upload />
         </Button>
