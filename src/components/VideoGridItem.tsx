@@ -1,3 +1,5 @@
+import { formatDuration } from "../utils/formatDuration";
+
 type VideoGridItemProps = {
   id: string;
   title: string;
@@ -33,7 +35,7 @@ const VideoGridItem = ({
         />
 
         <div className="absolute bottom-1 right-1 bg-secondary-dark text-secondary text-sm px-0.5 rounded">
-          {duration}
+          {formatDuration(duration)}
         </div>
       </a>
     </div>
