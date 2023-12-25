@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "./Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type CategoryPillProps = {
   categories: string[];
@@ -8,16 +8,24 @@ type CategoryPillProps = {
   onSelect: (category: string) => void;
 };
 
+const TRANSLATE_AMOUNT = 200;
+
 const CategoryPills = ({
   categories,
   selectedCategory,
   onSelect,
 }: CategoryPillProps) => {
+  const [translate, setTranslate] = useState(500);
   const [isLeftVisible, setIsLeftVisible] = useState(true);
   const [isRightVisible, setIsRightVisible] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="overflow-x-hidden relative">
-      <div className="flex gap-3 whitespace-nowrap transition-transform w-[max-content]">
+    <div className="overflow-x-hidden relative" ref={containerRef}>
+      <div
+        className="flex gap-3 whitespace-nowrap transition-transform w-[max-content]"
+        style={{ transform: `translateX(-${translate}px)` }}
+      >
         {categories.map((category) => (
           <Button
             key={category}
@@ -35,6 +43,13 @@ const CategoryPills = ({
             variant="ghost"
             size="icon"
             className="h-full aspect-square w-auto p-1.5"
+            onClick={() => {
+              setTranslate((translate) => {
+                const newTranslate = translate - TRANSLATE_AMOUNT;
+                if (newTranslate <= 0) return 0;
+                return newTranslate;
+              });
+            }}
           >
             <ChevronLeft />
           </Button>
@@ -47,6 +62,20 @@ const CategoryPills = ({
             variant="ghost"
             size="icon"
             className="h-full aspect-square w-auto p-1.5"
+            onClick={() => {
+              setTranslate((translate) => {
+                if (containerRef.current === null) {
+                  return translate;
+                }
+                const newTranslate = translate + TRANSLATE_AMOUNT;
+                const edge = containerRef.current.scrollWidth;
+                const width = containerRef.current.clientWidth;
+                if (newTranslate + width >= edge) {
+                  return edge - width;
+                }
+                return newTranslate;
+              });
+            }}
           >
             <ChevronRight />
           </Button>
