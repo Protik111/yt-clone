@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "./Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type CategoryPillProps = {
   categories: string[];
@@ -16,9 +16,30 @@ const CategoryPills = ({
   onSelect,
 }: CategoryPillProps) => {
   const [translate, setTranslate] = useState(500);
-  const [isLeftVisible, setIsLeftVisible] = useState(true);
-  const [isRightVisible, setIsRightVisible] = useState(true);
+  const [isLeftVisible, setIsLeftVisible] = useState(false);
+  const [isRightVisible, setIsRightVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current == null) return;
+
+    const observer = new ResizeObserver((entries) => {
+      // const container = containerRef.current;
+      const container = entries[0]?.target;
+      if (container == null) return;
+
+      setIsLeftVisible(translate > 0);
+      setIsRightVisible(
+        translate + container.clientWidth < container.scrollWidth
+      );
+    });
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [categories, translate]);
 
   return (
     <div className="overflow-x-hidden relative" ref={containerRef}>

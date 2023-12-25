@@ -8,4 +8,6 @@
 
 [Tailwind Gradient](https://v2.tailwindcss.com/docs/gradient-color-stops)
 
-[Video For offsetHeight, clientHeight](https://www.youtube.com/watch?v=GbOEK9lI7vE)
+[Video for offsetHeight, clientHeight](https://www.youtube.com/watch?v=GbOEK9lI7vE)
+
+[Video for ResizeObserver](https://www.youtube.com/watch?v=M2c37drnnOA)
