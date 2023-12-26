@@ -15,7 +15,7 @@ const CategoryPills = ({
   selectedCategory,
   onSelect,
 }: CategoryPillProps) => {
-  const [translate, setTranslate] = useState(500);
+  const [translate, setTranslate] = useState(0);
   const [isLeftVisible, setIsLeftVisible] = useState(false);
   const [isRightVisible, setIsRightVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
